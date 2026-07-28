@@ -1,0 +1,15 @@
+# Define the deployment stage
+stages:
+  - deploy
+
+# Tell GitLab Pages to host the static HTML files
+pages:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - echo "Deploying guestbook to GitLab Pages..."
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
