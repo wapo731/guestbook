@@ -1,0 +1,12 @@
+"repository": {wapo731
+  "type": "git",
+  "url": "git+https://gitlab.com"
+}
+# Add the file to your staging area
+git add package.json
+
+# Commit the change with a message
+git commit -m "Add package.json to guestbook repository"
+
+# Push the changes to your main branch
+git push origin main
