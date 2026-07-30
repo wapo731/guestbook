@@ -1,3 +1,25 @@
+stages:
+  - build
+  - test
+
+variables:
+  APP_NAME: "guestbook"
+
+build_job:
+  stage: build
+  image: node:lts
+  script:
+    - echo "Installing dependencies for $APP_NAME..."
+    - npm install
+    - echo "Building the project..."
+    - npm run build
+
+test_job:
+  stage: test
+  image: node:lts
+  script:
+    - echo "Running tests..."
+    - npm test
 # Define the deployment stage
 stages:
   - deploy
