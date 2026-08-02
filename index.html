@@ -1,41 +1,46 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Guestbook</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <title>Guestbook</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { background-color: #007bff; color: white; padding: 10px 15px; border: none; cursor: pointer; }
+        .feed-item { border-bottom: 1px solid #eee; padding: 15px 0; }
+        .feed-meta { font-size: 0.85em; color: #666; }
+    </style>
 </head>
 <body>
-  <main class="container">
-    <h1>Guestbook</h1>
-    <p class="lead">Leave a friendly note or signature for visitors.</p>
 
-    <form id="guestbook-form" aria-label="Guestbook form">
-      <div class="field">
-        <label for="name">Name</label>
-        <input id="name" name="name" type="text" maxlength="60" required placeholder="Your name">
-      </div>
-      <div class="field">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="4" maxlength="1000" required placeholder="Write something nice..."></textarea>
-      </div>
-      <div class="actions">
-        <button type="submit">Sign guestbook</button>
-        <button type="button" id="clear-local">Clear this browser's entries</button>
-      </div>
+    <!-- Header Section -->
+    <h1>Sign My Guestbook!</h1>
+
+    <!-- Input Form Section -->
+    <form action="/submit-guestbook" method="POST">
+        <div class="form-group">
+            <label for="visitor-name">Name</label>
+            <input type="text" id="visitor-name" name="name" required placeholder="Your name">
+        </div>
+        <div class="form-group">
+            <label for="visitor-message">Message</label>
+            <textarea id="visitor-message" name="message" rows="4" required placeholder="Write something..."></textarea>
+        </div>
+        <button type="submit">Submit Entry</button>
     </form>
 
-    <section id="entries" aria-live="polite">
-      <h2>Entries</h2>
-      <ul id="entries-list"></ul>
-    </section>
+    <!-- Message Feed Section -->
+    <div id="message-feed" style="margin-top: 40px;">
+        <h2>Previous Entries</h2>
+        
+        <!-- Example Entry -->
+        <div class="feed-item">
+            <div class="feed-meta"><strong>Jane Doe</strong> &bull; October 24, 2023</div>
+            <p>Loved visiting your page! Keep up the great work.</p>
+        </div>
+    </div>
 
-    <footer>
-      <p class="muted">This is a static demo guestbook. Entries are saved only in your browser (localStorage).</p>
-    </footer>
-  </main>
-
-  <script src="app.js" defer></script>
 </body>
 </html>
