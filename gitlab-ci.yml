@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - deploy
 
 variables:
   APP_NAME: "guestbook"
@@ -13,25 +14,46 @@ build_job:
     - npm install
     - echo "Building the project..."
     - npm run build
+    - echo "Preparing public/ for GitLab Pages..."
+    - |
+      # Copy common build output directories into public/ so Pages can pick them up.
+      # Try a few common locations (build, dist, public) so this works regardless of project setup.
+      rm -rf public || true
+      if [ -d "build" ]; then
+        cp -r build public
+      elif [ -d "dist" ]; then
+        cp -r dist public
+      elif [ -d "public" ]; then
+        mkdir -p public
+      else
+        mkdir -p public
+      fi
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 week
+
 
 test_job:
   stage: test
   image: node:lts
   script:
     - echo "Running tests..."
+    - npm install
     - npm test
-# Define the deployment stage
-stages:
-  - deploy
 
-# Tell GitLab Pages to host the static HTML files
+# Pages (deploy) stage: expose the public/ artifact so GitLab Pages can serve it
 pages:
   stage: deploy
   image: alpine:latest
+  dependencies:
+    - build_job
   script:
     - echo "Deploying guestbook to GitLab Pages..."
+    - ls -la public || true
   artifacts:
     paths:
       - public
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: always
